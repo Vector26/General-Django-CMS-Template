@@ -28,7 +28,7 @@ python manage.py createsuperuser
 | ------ | ------ | ------ |
 | /api-token-auth | post | Login to recieve a Auth-token(Use that auth token in header as `Authorisation: Token "Your token without double-commas"`)
 | /admin | get | Use Admin
-| /CMS-API | get | Gets Profile Info
+| /CMS-API | get | Gets Profile Info depending upon the presence of "id" variable. If "id" is not present, it will return logged in user's profile.
 | /CMS-API | post |  Updates Profile Info
 | /CMS-API/signUp | post | Signs-Up an User
 | /CMS-API/search | get | Searches a user with variable 'username'
