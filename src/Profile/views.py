@@ -82,18 +82,16 @@ class FollowView(APIView):
             user=User.objects.get(id=request.data.get('id'))
             followedAuthor = Profile.objects.get(user=user)
             author = Profile.objects.get(user=request.user)
-            if(request.data.get("action")==0):
+            if(not FollowerSystem.objects.filter(FollowedUser=followedAuthor,Follower=author).exists()):
                 data = {"FollowedUser": followedAuthor, "Follower": author}
                 serializer = FollowSerializer()
                 vD=serializer.create(validated_data=data)
                 sR=FollowSerializer(vD)
                 return Response({"Message":"Followed","Detail":sR.data}, status=status.HTTP_201_CREATED)
-            elif(request.data.get("action")==1):
+            else:
                 followRelation = FollowerSystem.objects.get(FollowedUser=followedAuthor, Follower=author)
                 followRelation.delete()
                 return Response({"Message":"Unfollowed"},status=status.HTTP_204_NO_CONTENT)
-            else:
-                return Response({"Message":"Unusual activity reported"},status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"Message":"User does not exist"},status=status.HTTP_404_NOT_FOUND)
 
