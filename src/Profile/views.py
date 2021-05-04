@@ -71,6 +71,13 @@ class Signup(generics.CreateAPIView):
 class FollowView(APIView):
     def get(self, request):
         author = Profile.objects.get(user=request.user)
+        if(request.query_params.get('id')):
+            if (User.objects.filter(id=request.data.get('id')).exists()):
+                temp=User.objects.get(id=request.data.get('id'))
+                if(FollowerSystem.objects.filter(FollowedUser=temp,Follower=author).exists()):
+                    author=temp
+                else:
+                    return Response({"Message":"Not allowed"},statusstatus.HTTP_403_FORBIDDEN)
         follower = FollowerSystem.objects.filter(FollowedUser=author)
         followed = FollowerSystem.objects.filter(Follower=author)
         serializer2 = FollowersSerializer(follower, many=True)
