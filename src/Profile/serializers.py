@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.ProfileUser.Bio = validated_data.get('bio', instance.ProfileUser.Bio)
+        instance.ProfileUser.image = validated_data.get('profile_pic', instance.ProfileUser.image)
         return instance
 
 class Register(serializers.ModelSerializer):
