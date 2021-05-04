@@ -17,11 +17,17 @@ pip install -r requirements.txt
 cd src
 python manage.py runserver
 ```
+> Create a super-user and then login to admin
+```
+python manage.py createsuperuser 
+```
+
 > Note: `Would reccomend using a Virtual Environment(venv)`
 
 | URLS | Action | Work-Description |
 | ------ | ------ | ------ |
 | /api-token-auth | post | Login to recieve a Auth-token(Use that auth token in header as `Authorisation: Token "Your token without double-commas"`)
+| /admin | get | Use Admin
 | /CMS-API | get | Gets Profile Info
 | /CMS-API | post |  Updates Profile Info
 | /CMS-API/signUp | post | Signs-Up an User
