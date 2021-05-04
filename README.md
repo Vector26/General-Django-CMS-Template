@@ -12,6 +12,11 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Django 
 ```bash
 pip install -r requirements.txt
 ```
+
+```bash
+cd src
+python manage.py runserver
+```
 > Note: `Would reccomend using a Virtual Environment(venv)`
 
 | URLS | Action | Work-Description |
