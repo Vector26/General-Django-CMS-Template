@@ -11,11 +11,8 @@ class Profile(models.Model):
     def getUsername(self):
         # user_id=User.objects.get(username=self.user.username)
         return self.user.username
-
     def getFollowersCount(self):
         return FollowerSystem.objects.filter(FollowedUser=self).count()
-    def getPostsCount(self):
-        return PostContent.objects.filter(profile=self).count()
 
     def getFollowedCount(self):
         return FollowerSystem.objects.filter(Follower=self).count()

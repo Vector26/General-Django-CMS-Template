@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from .models import *
+from Feed.models import PostContent
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,7 +60,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_FRC(self,obj):
         return obj.getFollowersCount()
     def get_PC(self,obj):
-        return obj.getPostsCount()
+        return PostContent.objects.filter(profile=obj).count()
 
 # Search Serializers__________________________
 
