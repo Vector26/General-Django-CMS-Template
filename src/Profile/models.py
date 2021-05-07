@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from Feed.models import PostContent
 import datetime
 # Create your models here.
 class Profile(models.Model):
@@ -14,6 +15,8 @@ class Profile(models.Model):
 
     def getFollowersCount(self):
         return FollowerSystem.objects.filter(FollowedUser=self).count()
+    def getPostsCount(self):
+        return PostContent.objects.filter(profile=self).count()
 
     def getFollowedCount(self):
         return FollowerSystem.objects.filter(Follower=self).count()

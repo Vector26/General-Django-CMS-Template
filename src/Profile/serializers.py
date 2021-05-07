@@ -50,6 +50,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     user=UserSerializer(read_only=True)
     FRC=serializers.SerializerMethodField()
     FDC=serializers.SerializerMethodField()
+    PC=serializers.SerializerMethodField()
     class Meta:
         model=Profile
         fields="__all__"
@@ -57,6 +58,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         return obj.getFollowedCount()
     def get_FRC(self,obj):
         return obj.getFollowersCount()
+    def get_PC(self,obj):
+        return obj.getPostsCount()
 
 # Search Serializers__________________________
 
