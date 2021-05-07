@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from Feed.models import PostContent
 import datetime
 # Create your models here.
 class Profile(models.Model):
