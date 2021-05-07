@@ -7,6 +7,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import *
 from .serializers import *
+from Feed.serializers import PostSerializer
 # Create your views here.
 
 class ProfileInfo(APIView):
@@ -30,6 +31,8 @@ class ProfileInfo(APIView):
         data={}
         data["Profile"]=s1.data
         if(flag):
+            Posts=PostSerializer(PostContent.objects.filter(profile=profile),many=True).data
+            data["Posts"]=Posts
             Followers = FollowerSystem.objects.filter(FollowedUser=profile)
             Followed = FollowerSystem.objects.filter(Follower=profile)
             s2 = FollowersSerializer(Followers, many=True)
