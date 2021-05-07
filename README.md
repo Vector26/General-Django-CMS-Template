@@ -32,7 +32,7 @@ python manage.py createsuperuser
 | /CMS-API | post |  Updates Profile Info
 | /CMS-API/signUp | post | Signs-Up an User
 | /CMS-API/search | get | Searches a user with variable 'username'
-| /CMS-API/follow | get | Gets Follower and Followed List of the logged-in User
+| /CMS-API/follow | get | Gets Follower and Followed List of the logged-in User or if "id" is provided and logged-in User follows it, the Follow/Followed List of that user
 | /CMS-API/follow | post | Follow/Unfollow by "id" variable provided 
 | /CMS-API/Feed | get | Gets daily feed unless an "id" is provided,in that case it gets the post with that id
 | /CMS-API/Feed | post | Upload a new Post
