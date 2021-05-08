@@ -13,7 +13,7 @@ class PostSerializer(serializers.ModelSerializer):
     def get_likes(self,obj):
         return obj.getLikes()
     def get_isLiked(self,obj):
-        user=self.context.get('request',None).user
+        user=self.context.get('request').user
         profile=Profile.objects.get(user=user)
         if(Likes.objects.filter(post=obj, liker=profile).exists()):
             return 1
@@ -34,8 +34,40 @@ class PostSerializer(serializers.ModelSerializer):
         instance.save()
         return PostSerializer(instance).data
 
+class LikePostSerializer(serializers.ModelSerializer):
+    profile=FollowProfileSerializer()
+    likes=serializers.SerializerMethodField()
+    comments=serializers.SerializerMethodField()
+    # isLiked=serializers.SerializerMethodField()
+    class Meta:
+        model=PostContent
+        fields="__all__"
+    def get_likes(self,obj):
+        return obj.getLikes()
+    # def get_isLiked(self,obj):
+        # user=self.context.get('request').user
+        # profile=Profile.objects.get(user=user)
+        # if(Likes.objects.filter(post=obj, liker=profile).exists()):
+        #     return 1
+        # else:
+        #     return 0
+    def get_comments(self,obj):
+        return PostCommentSerializer(obj.getComments(),many=True).data
+    def create(self, validated_data):
+        p=PostContent.objects.create(
+            profile=validated_data['profile'],
+            content=validated_data['content']
+        )
+        p.save()
+        return PostSerializer(p).data
+
+    def update(self,instance,validated_data):
+        instance.content=validated_data['content']
+        instance.save()
+        return PostSerializer(instance).data
+
 class LikeSerializer(serializers.ModelSerializer):
-    post=PostSerializer()
+    post=LikePostSerializer()
     liker=FollowProfileSerializer()
     class Meta:
         model=Likes
