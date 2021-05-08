@@ -13,8 +13,9 @@ class PostSerializer(serializers.ModelSerializer):
     def get_likes(self,obj):
         return obj.getLikes()
     def get_isLiked(self,obj):
-        user=self.context.get('request',None)
-        if(Likes.objects.filter(post=obj, liker=user).exists()):
+        user=self.context.get('request',None).user
+        profile=Profile.objects.get(user=user)
+        if(Likes.objects.filter(post=obj, liker=profile).exists()):
             return 1
         else:
             return 0

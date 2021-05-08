@@ -16,12 +16,12 @@ class Feed(APIView):
         if(request.query_params.get('id')):
             if(PostContent.objects.filter(id=request.query_params.get('id')).exists()):
                 queryset = PostContent.objects.get(id=request.query_params.get('id'))
-                t = PostSerializer(queryset)
+                t = PostSerializer(queryset,context={"request":request})
             else:
                 return Response({"Message":"Post Does not exist"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             queryset = PostContent.objects.all()
-            t=PostSerializer(queryset,many=True)
+            t=PostSerializer(queryset,many=True,context={"request":request})
         return Response(t.data,status=status.HTTP_200_OK)
     def post(self,request):
         profile = Profile.objects.get(user=request.user)
