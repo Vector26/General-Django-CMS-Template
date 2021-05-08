@@ -6,11 +6,18 @@ class PostSerializer(serializers.ModelSerializer):
     profile=FollowProfileSerializer()
     likes=serializers.SerializerMethodField()
     comments=serializers.SerializerMethodField()
+    isLiked=serializers.SerializerMethodField()
     class Meta:
         model=PostContent
         fields="__all__"
     def get_likes(self,obj):
         return obj.getLikes()
+    def get_isLiked(self,obj):
+        user=self.context.get('request',None)
+        if(Likes.objects.filter(post=obj, liker=user).exists()):
+            return 1
+        else:
+            return 0
     def get_comments(self,obj):
         return PostCommentSerializer(obj.getComments(),many=True).data
     def create(self, validated_data):
