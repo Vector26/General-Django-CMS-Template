@@ -31,7 +31,7 @@ class ProfileInfo(APIView):
         data={}
         data["Profile"]=s1.data
         if(flag):
-            Posts=PostSerializer(PostContent.objects.filter(profile=profile),many=True).data
+            Posts=PostSerializer(PostContent.objects.filter(profile=profile),many=True,context={"request":request}).data
             data["Posts"]=Posts
             Followers = FollowerSystem.objects.filter(FollowedUser=profile)
             Followed = FollowerSystem.objects.filter(Follower=profile)
