@@ -59,12 +59,13 @@ class Likesview(APIView):
                 # Update a post
                 inst = PostContent.objects.get(id=request.data.get('id'))
                 if (Likes.objects.filter(liker=profile,post=inst).exists()):
+                    t = LikeSerializer(Likes.objects.get(liker=profile, post=inst),many=False)
                     Likes.objects.get(liker=profile, post=inst).delete()
-                    return Response({"Message":"Disliked"},status=status.HTTP_200_OK)
+                    return Response({"Message":"Disliked","Data":t.data},status=status.HTTP_200_OK)
                 else:
                     t = LikeSerializer()
                     data = t.create({"liker": profile, "post":inst})
-                return Response({"Message":"Liked"}, status=status.HTTP_200_OK)
+                return Response({"Message":"Liked","Data":data}, status=status.HTTP_200_OK)
             else:
                 return Response({"Message": "Post does not exist"}, status=status.HTTP_404_NOT_FOUND)
         else:
