@@ -13,9 +13,11 @@ from Feed.serializers import PostSerializer
 class ProfileInfo(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
+        isItself=0
         flag=True
         if(not request.query_params.get('id')):
             profile=Profile.objects.get(user=request.user)
+            isItself=1
         else:
             id=request.query_params.get('id')
             if(Profile.objects.filter(id=id).exists()):
@@ -23,12 +25,15 @@ class ProfileInfo(APIView):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             profileO = Profile.objects.get(user=request.user)
+            if (profile.user.username == profileO.user.username and profile.user.password==profileO.user.password):
+                isItself=1
             if(FollowerSystem.objects.filter(FollowedUser=profile,Follower=profileO).exists()):
                 flag=True
             else:
                 flag=False
         s1 = ProfileSerializer(profile, many=False)
         data={}
+        data["isItself"] = isItself
         data["Profile"]=s1.data
         if(flag):
             Posts=PostSerializer(PostContent.objects.filter(profile=profile),many=True,context={"request":request}).data
