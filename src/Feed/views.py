@@ -29,13 +29,13 @@ class Feed(APIView):
             if (PostContent.objects.filter(id=request.data.get('id'),profile=profile).exists()):
                 # Update a post
                 inst=PostContent.objects.get(profile=profile,id=request.data.get('id'))
-                t=PostSerializer()
+                t=PostSerializer(context={"request":request})
                 data=t.update(instance=inst,validated_data={"content":request.data.get('content')})
                 return Response({"Data":data},status=status.HTTP_200_OK)
             else:
                 return Response({"Message": "Not Allowed"}, status=status.HTTP_403_FORBIDDEN)
         else:
-            t=PostSerializer()
+            t=PostSerializer(context={"request":request})
             t=t.create({"profile":profile,"content":request.data.get('content')})
         return Response(t, status=status.HTTP_200_OK)
 
@@ -59,11 +59,11 @@ class Likesview(APIView):
                 # Update a post
                 inst = PostContent.objects.get(id=request.data.get('id'))
                 if (Likes.objects.filter(liker=profile,post=inst).exists()):
-                    t = LikeSerializer(Likes.objects.get(liker=profile, post=inst),many=False)
+                    t = LikeSerializer(Likes.objects.get(liker=profile, post=inst),many=False,context={"request":request})
                     Likes.objects.get(liker=profile, post=inst).delete()
                     return Response({"Message":"Disliked","Data":t.data},status=status.HTTP_200_OK)
                 else:
-                    t = LikeSerializer()
+                    t = LikeSerializer(context={"request":request})
                     data = t.create({"liker": profile, "post":inst})
                 return Response({"Message":"Liked","Data":data}, status=status.HTTP_200_OK)
             else:
