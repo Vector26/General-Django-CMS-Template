@@ -112,7 +112,7 @@ class CommentView(APIView):
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             if(Comment.objects.filter(post=post,commenter=profile,id=request.data.get('id')).exists()):
-                data=CommentSerializer(Comment.objects.get(post=post, commenter=profile, id=request.data.get('id')))
+                data=CommentSerializer(Comment.objects.get(post=post, commenter=profile, id=request.data.get('id')),context={"request":request})
                 Comment.objects.get(post=post, commenter=profile, id=request.data.get('id')).delete()
                 return Response({"Message":"Comment Deleted","Data":data.data},status=status.HTTP_200_OK)
 
