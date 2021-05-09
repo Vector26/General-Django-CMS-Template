@@ -106,14 +106,14 @@ class CommentView(APIView):
 
     def delete(self,request):
         profile=Profile.objects.get(user=request.user)
-        if(request.data.get('post_id') and request.data.get('id')):
-            if(PostContent.objects.filter(id=request.data.get('post_id')).exists()):
-                post=PostContent.objects.get(id=request.data.get('post_id'))
+        if(request.query_params.get('post_id') and request.query_params.get('id')):
+            if(PostContent.objects.filter(id=request.query_params.get('post_id')).exists()):
+                post=PostContent.objects.get(id=request.query_params.get('post_id'))
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            if(Comment.objects.filter(post=post,commenter=profile,id=request.data.get('id')).exists()):
-                data=CommentSerializer(Comment.objects.get(post=post, commenter=profile, id=request.data.get('id')),context={"request":request})
-                Comment.objects.get(post=post, commenter=profile, id=request.data.get('id')).delete()
+            if(Comment.objects.filter(post=post,commenter=profile,id=request.query_params.get('id')).exists()):
+                data=CommentSerializer(Comment.objects.get(post=post, commenter=profile, id=request.query_params.get('id')),context={"request":request})
+                Comment.objects.get(post=post, commenter=profile, id=request.query_params.get('id')).delete()
                 return Response({"Message":"Comment Deleted","Data":data.data},status=status.HTTP_200_OK)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
