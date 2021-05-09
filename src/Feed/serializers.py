@@ -95,7 +95,7 @@ class CommentSerializer(serializers.ModelSerializer):
             post=validated_data['post']
         )
         p.save()
-        return CommentSerializer(p,self.context).data
+        return CommentSerializer(p,context=self.context).data
 
     def get_isOwned(self,obj):
         user = self.context.get('request').user

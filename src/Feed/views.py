@@ -95,8 +95,9 @@ class CommentView(APIView):
             if (PostContent.objects.filter(id=request.data.get('post_id')).exists()):
                 # Update a post
                 inst=PostContent.objects.get(id=request.data.get('post_id'))
-                t=CommentSerializer(context={"request":request})
-                data=t.create(validated_data={"comment":request.data.get('comment'),"commenter":profile,"post":inst})
+                # t=CommentSerializer(context={"request":request})
+                # t.is_valid()
+                data=CommentSerializer(context={"request":request}).create(validated_data={"comment":request.data.get('comment'),"commenter":profile,"post":inst})
                 return Response({"Data":data},status=status.HTTP_200_OK)
             else:
                 return Response({"Message": "Not Allowed"}, status=status.HTTP_403_FORBIDDEN)
