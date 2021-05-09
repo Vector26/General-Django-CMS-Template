@@ -40,4 +40,4 @@ python manage.py createsuperuser
 | /CMS-API/Feed/like | post | Likes/Unlikes a post with given "id"
 | /CMS-API/Feed/comment | get | Gets Comment if "id" is provided a, Gets comments in post by provided "post_id" 
 | /CMS-API/Feed/comment | post | Posts comment on post by providing "post_id" and "comment" (content of the comment)
-| /CMS-API/feed/comment | delete | Delete a comment on a post providing "post_id" and "id" (Comment id)
+| /CMS-API/feed/comment | delete | Delete a comment on a post providing "post_id" and "id" (Comment id) as query params.
