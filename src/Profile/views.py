@@ -35,7 +35,7 @@ class ProfileInfo(APIView):
         data={}
         data["isItself"] = isItself
         data["Profile"]=s1.data
-        if(flag):
+        if(flag or isItself==1):
             Posts=PostSerializer(PostContent.objects.filter(profile=profile),many=True,context={"request":request}).data
             data["Posts"]=Posts
             Followers = FollowerSystem.objects.filter(FollowedUser=profile)
