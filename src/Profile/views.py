@@ -106,7 +106,7 @@ class FollowView(APIView):
             else:
                 followRelation = FollowerSystem.objects.get(FollowedUser=followedAuthor, Follower=author)
                 followRelation.delete()
-                return Response({"Message":"Unfollowed"},status=status.HTTP_204_NO_CONTENT)
+                return Response({"Message":"Unfollowed"},status=status.HTTP_200_OK)
         else:
             return Response({"Message":"User does not exist"},status=status.HTTP_404_NOT_FOUND)
 
