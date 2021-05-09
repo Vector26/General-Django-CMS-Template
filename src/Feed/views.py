@@ -78,7 +78,7 @@ class CommentView(APIView):
         if(request.query_params.get('id')):
             if(Comment.objects.filter(id=request.query_params.get('id')).exists()):
                 queryset = Comment.objects.get(id=request.query_params.get('id'))
-                t = CommentSerializer(queryset)
+                t = CommentSerializer(queryset,context={"request":request})
             else:
                 return Response({"Message":"Post Does not exist"}, status=status.HTTP_400_BAD_REQUEST)
         elif(request.query_params.get('post_id')):
@@ -87,7 +87,7 @@ class CommentView(APIView):
             else:
                 return Response({"message":"Post not found"},status=status.HTTP_400_BAD_REQUEST)
             queryset = Comment.objects.filter(post=post)
-            t=PostCommentSerializer(queryset,many=True)
+            t=PostCommentSerializer(queryset,many=True,context={"request":request})
         return Response(t.data,status=status.HTTP_200_OK)
     def post(self,request):
         profile = Profile.objects.get(user=request.user)
@@ -95,7 +95,7 @@ class CommentView(APIView):
             if (PostContent.objects.filter(id=request.data.get('post_id')).exists()):
                 # Update a post
                 inst=PostContent.objects.get(id=request.data.get('post_id'))
-                t=CommentSerializer()
+                t=CommentSerializer(context={"request":request})
                 data=t.create(validated_data={"comment":request.data.get('comment'),"commenter":profile,"post":inst})
                 return Response({"Data":data},status=status.HTTP_200_OK)
             else:

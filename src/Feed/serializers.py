@@ -20,7 +20,7 @@ class PostSerializer(serializers.ModelSerializer):
         else:
             return 0
     def get_comments(self,obj):
-        return PostCommentSerializer(obj.getComments(),many=True).data
+        return PostCommentSerializer(obj.getComments(),context=self.context,many=True).data
     def create(self, validated_data):
         p=PostContent.objects.create(
             profile=validated_data['profile'],
@@ -32,7 +32,7 @@ class PostSerializer(serializers.ModelSerializer):
     def update(self,instance,validated_data):
         instance.content=validated_data['content']
         instance.save()
-        return PostSerializer(instance).data
+        return PostSerializer(instance,context=self.context).data
 
 class LikePostSerializer(serializers.ModelSerializer):
     profile=FollowProfileSerializer()
@@ -52,7 +52,7 @@ class LikePostSerializer(serializers.ModelSerializer):
         # else:
         #     return 0
     def get_comments(self,obj):
-        return PostCommentSerializer(obj.getComments(),many=True).data
+        return PostCommentSerializer(obj.getComments(),context=self.context,many=True).data
     def create(self, validated_data):
         p=PostContent.objects.create(
             profile=validated_data['profile'],
@@ -79,11 +79,12 @@ class LikeSerializer(serializers.ModelSerializer):
             post=validated_data['post']
         )
         p.save()
-        return LikeSerializer(p).data
+        return LikeSerializer(p,context=self.context).data
 
 class CommentSerializer(serializers.ModelSerializer):
     commenter=FollowProfileSerializer()
     post=PostSerializer()
+    isOwned=serializers.SerializerMethodField()
     class Meta:
         model=Comment
         fields="__all__"
@@ -94,15 +95,32 @@ class CommentSerializer(serializers.ModelSerializer):
             post=validated_data['post']
         )
         p.save()
-        return CommentSerializer(p).data
+        return CommentSerializer(p,self.context).data
+
+    def get_isOwned(self,obj):
+        user = self.context.get('request').user
+        profile = Profile.objects.get(user=user)
+        if (Comment.objects.filter(post=obj.post, commenter=profile).exists()):
+            return 1
+        else:
+            return 0
 
     def update(self,instance,validated_data):
         instance.content=validated_data['comment']
         instance.save()
-        return CommentSerializer(instance).data
+        return CommentSerializer(instance,self.context).data
 
 class PostCommentSerializer(serializers.ModelSerializer):
     commenter=FollowProfileSerializer()
+    isOwned=serializers.SerializerMethodField()
     class Meta:
         model=Comment
         exclude=["post"]
+
+    def get_isOwned(self,obj):
+        user = self.context.get('request').user
+        profile = Profile.objects.get(user=user)
+        if (Comment.objects.filter(post=obj.post, commenter=profile).exists()):
+            return 1
+        else:
+            return 0
