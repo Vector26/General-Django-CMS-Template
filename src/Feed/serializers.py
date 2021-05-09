@@ -100,6 +100,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_isOwned(self,obj):
         user = self.context.get('request').user
         profile = Profile.objects.get(user=user)
+        print(profile)
         if (Comment.objects.filter(comment=obj,commenter=profile).exists()):
             return 1
         else:
@@ -120,7 +121,9 @@ class PostCommentSerializer(serializers.ModelSerializer):
     def get_isOwned(self,obj):
         user = self.context.get('request').user
         profile = Profile.objects.get(user=user)
-        if (Comment.objects.filter(comment=obj,commenter=profile).exists()):
+
+        # print(Comment.objects.filter(comment=obj,commenter=profile).exists())
+        if (profile==obj.commenter and profile.user.email==obj.commenter.user.email and profile.user.password==obj.commenter.user.password):
             return 1
         else:
             return 0
