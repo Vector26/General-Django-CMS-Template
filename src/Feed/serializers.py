@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
             content=validated_data['content']
         )
         p.save()
-        return PostSerializer(p).data
+        return PostSerializer(p,context=self.context).data
 
     def update(self,instance,validated_data):
         instance.content=validated_data['content']
