@@ -20,7 +20,7 @@ class Feed(APIView):
             else:
                 return Response({"Message":"Post Does not exist"}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            queryset = PostContent.objects.all()
+            queryset = PostContent.objects.all().order_by('-date_posted')
             t=PostSerializer(queryset,many=True,context={"request":request})
         return Response(t.data,status=status.HTTP_200_OK)
     def post(self,request):
