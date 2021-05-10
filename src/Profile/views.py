@@ -38,12 +38,6 @@ class ProfileInfo(APIView):
         if(flag or isItself==1):
             Posts=PostSerializer(PostContent.objects.filter(profile=profile),many=True,context={"request":request}).data
             data["Posts"]=Posts
-            Followers = FollowerSystem.objects.filter(FollowedUser=profile)
-            Followed = FollowerSystem.objects.filter(Follower=profile)
-            s2 = FollowersSerializer(Followers, many=True)
-            data["Followers"]=s2.data
-            s3 = FollowedSerializer(Followed, many=True)
-            data["Followed"] = s3.data
         return Response(data, status=status.HTTP_200_OK)
 
     def post(self,request):
