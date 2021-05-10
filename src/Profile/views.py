@@ -78,9 +78,9 @@ class FollowView(APIView):
                 temp=User.objects.get(id=request.query_params.get('id'))
                 profile=Profile.objects.get(user=temp)
                 if(FollowerSystem.objects.filter(FollowedUser=profile,Follower=author).exists()):
-                    author=temp
+                    author=profile
                 else:
-                    return Response({"Message":"Not allowed"},statusstatus.HTTP_403_FORBIDDEN)
+                    return Response({"Message":"Not allowed"},status=status.HTTP_403_FORBIDDEN)
         follower = FollowerSystem.objects.filter(FollowedUser=author)
         followed = FollowerSystem.objects.filter(Follower=author)
         serializer2 = FollowersSerializer(follower, many=True)
