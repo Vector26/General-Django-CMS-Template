@@ -74,8 +74,8 @@ class FollowView(APIView):
     def get(self, request):
         author = Profile.objects.get(user=request.user)
         if(request.query_params.get('id')):
-            if (User.objects.filter(id=request.data.get('id')).exists()):
-                temp=User.objects.get(id=request.data.get('id'))
+            if (User.objects.filter(id=request.query_params.get('id')).exists()):
+                temp=User.objects.get(id=request.query_params.get('id'))
                 if(FollowerSystem.objects.filter(FollowedUser=temp,Follower=author).exists()):
                     author=temp
                 else:
