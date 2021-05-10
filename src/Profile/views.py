@@ -77,7 +77,7 @@ class FollowView(APIView):
             if (User.objects.filter(id=request.query_params.get('id')).exists()):
                 temp=User.objects.get(id=request.query_params.get('id'))
                 profile=Profile.objects.get(user=temp)
-                if(FollowerSystem.objects.filter(FollowedUser=temp,Follower=author).exists()):
+                if(FollowerSystem.objects.filter(FollowedUser=profile,Follower=author).exists()):
                     author=temp
                 else:
                     return Response({"Message":"Not allowed"},statusstatus.HTTP_403_FORBIDDEN)
