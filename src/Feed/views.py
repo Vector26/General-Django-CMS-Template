@@ -45,7 +45,7 @@ class Feed(APIView):
             if (PostContent.objects.filter(id=request.query_params.get('id'), profile=profile).exists()):
                 # Update a post
                 PostContent.objects.get(id=request.query_params.get('id'), profile=profile).delete()
-                return Response(status=status.HTTP_200_OK)
+                return Response({"Message":"Deleted"},status=status.HTTP_200_OK)
             else:
                 return Response({"Message": "Not Allowed"}, status=status.HTTP_403_FORBIDDEN)
         else:
