@@ -36,7 +36,7 @@ python manage.py createsuperuser
 | /CMS-API/follow | post | Follow/Unfollow by "id" variable provided 
 | /CMS-API/Feed | get | Gets daily feed unless an "id" is provided,in that case it gets the post with that id
 | /CMS-API/Feed | post | Upload a new Post by "content" variable or edit by providing "id" of an existing post long with new content to update that post
-| /CMS-API/Feed | delete | Deletes the post with given "id"
+| /CMS-API/Feed | delete | Deletes the post with given "id" as query param
 | /CMS-API/Feed/like | post | Likes/Unlikes a post with given "id"
 | /CMS-API/Feed/comment | get | Gets Comment if "id" is provided a, Gets comments in post by provided "post_id" 
 | /CMS-API/Feed/comment | post | Posts comment on post by providing "post_id" and "comment" (content of the comment)
