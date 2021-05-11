@@ -41,11 +41,11 @@ class Feed(APIView):
 
     def delete(self,request):
         profile = Profile.objects.get(user=request.user)
-        if (request.data.get('id')):
-            if (PostContent.objects.filter(id=request.data.get('id'), profile=profile).exists()):
+        if (request.query_params.get('id')):
+            if (PostContent.objects.filter(id=request.query_params.get('id'), profile=profile).exists()):
                 # Update a post
-                PostContent.objects.get(id=request.data.get('id'), profile=profile).delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
+                PostContent.objects.get(id=request.query_params.get('id'), profile=profile).delete()
+                return Response(status=status.HTTP_200_OK)
             else:
                 return Response({"Message": "Not Allowed"}, status=status.HTTP_403_FORBIDDEN)
         else:
