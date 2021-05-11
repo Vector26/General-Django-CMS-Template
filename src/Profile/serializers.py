@@ -4,18 +4,34 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from .models import *
 from Feed.models import PostContent
+import base64
+import io
+from PIL import Image
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         exclude=["password","is_superuser","is_staff","is_active","groups","user_permissions"]
 
+    def decodeDesignImage(data):
+        try:
+            data = base64.b64decode(data.encode('UTF-8'))
+            buf = io.BytesIO(data)
+            img = Image.open(buf)
+            return img
+        except:
+            return None
+
     def update(self, instance, validated_data):
+        img = decodeDesignImage(validated_data.get('profile_pic'))
+        img_io = io.BytesIO()
+        img.save(img_io, format='JPEG')
         instance.email = validated_data.get('email', instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.ProfileUser.Bio = validated_data.get('bio', instance.ProfileUser.Bio)
-        instance.ProfileUser.image = validated_data.get('profile_pic', instance.ProfileUser.image)
+        # instance.ProfileUser.image = validated_data.get('profile_pic', instance.ProfileUser.image)
+        instance.ProfileUser.image = InMemoryUploadedFile(img_io, field_name=None, name=instance.first_name+"ProfilePic.jpg", content_type='image/jpeg', size=img_io.tell, charset=None)
         return instance
 
 class Register(serializers.ModelSerializer):
