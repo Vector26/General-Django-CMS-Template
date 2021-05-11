@@ -16,6 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     def decodeDesignImage(self,data):
         try:
+            data=str(data).replace("data:image/png;base64,","")
+            data=str(data).replace(" ","+")
             data = base64.b64decode(data.encode('UTF-8'))
             buf = io.BytesIO(data)
             img = Image.open(buf)
@@ -26,13 +28,13 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         img = self.decodeDesignImage(validated_data.get('profile_pic'))
         img_io = io.BytesIO()
-        img.save(img_io, format='JPEG')
+        img.save(img_io, format='PNG')
         instance.email = validated_data.get('email', instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
         instance.ProfileUser.Bio = validated_data.get('bio', instance.ProfileUser.Bio)
         # instance.ProfileUser.image = validated_data.get('profile_pic', instance.ProfileUser.image)
-        instance.ProfileUser.image = InMemoryUploadedFile(img_io, field_name=None, name=instance.first_name+"ProfilePic.jpg", content_type='image/jpeg', size=img_io.tell, charset=None)
+        instance.ProfileUser.image = InMemoryUploadedFile(img_io, field_name=None, name=instance.first_name+"ProfilePic.png", content_type='image/png', size=img_io.tell, charset=None)
         return instance
 
 class Register(serializers.ModelSerializer):
