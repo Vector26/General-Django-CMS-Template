@@ -41,8 +41,9 @@ class ProfileInfo(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
     def post(self,request):
+        print(request.data)
         u=UserSerializer(instance=request.user)
-        print(request.POST)
+        print(request.data)
         t=u.update(instance=request.user,validated_data=request.data)
         t.save()
         p=Profile.objects.get(user=t)

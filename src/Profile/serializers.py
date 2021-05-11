@@ -7,13 +7,14 @@ from Feed.models import PostContent
 import base64
 import io
 from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         exclude=["password","is_superuser","is_staff","is_active","groups","user_permissions"]
 
-    def decodeDesignImage(data):
+    def decodeDesignImage(self,data):
         try:
             data = base64.b64decode(data.encode('UTF-8'))
             buf = io.BytesIO(data)
@@ -23,7 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
             return None
 
     def update(self, instance, validated_data):
-        img = decodeDesignImage(validated_data.get('profile_pic'))
+        img = self.decodeDesignImage(validated_data.get('profile_pic'))
         img_io = io.BytesIO()
         img.save(img_io, format='JPEG')
         instance.email = validated_data.get('email', instance.email)
