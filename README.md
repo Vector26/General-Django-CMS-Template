@@ -17,6 +17,14 @@ pip install -r requirements.txt
 cd src
 python manage.py runserver
 ```
+
+## Alternative Installation (with Docker)
+
+```bash
+ docker build -t cms-api .
+ docker run --name cms-api -d -p 8000:8000 cms-api:latest
+```
+
 > Create a super-user and then login to admin
 ```
 python manage.py createsuperuser 
