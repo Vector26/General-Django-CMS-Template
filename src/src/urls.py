@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
-    path('CMS-API/', include('Profile.urls')),
+    path('api/', include('Profile.urls')),
     path('api-token-auth/', views.obtain_auth_token, name='api-tokn-auth'),
 ]
 
