@@ -32,6 +32,10 @@ python manage.py createsuperuser
 
 > Note: `Would reccomend using a Virtual Environment(venv)`
 
+## Official API Documentation
+
+https://documenter.getpostman.com/view/18719663/UVsPP51N
+
 | URLS | Action | Work-Description |
 | ------ | ------ | ------ |
 | /api-token-auth | post | Login to recieve a Auth-token(Use that auth token in header as `Authorisation: Token "Your token without double-commas"`)
