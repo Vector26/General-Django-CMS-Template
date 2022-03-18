@@ -36,16 +36,16 @@ python manage.py createsuperuser
 | ------ | ------ | ------ |
 | /api-token-auth | post | Login to recieve a Auth-token(Use that auth token in header as `Authorisation: Token "Your token without double-commas"`)
 | /admin | get | Use Admin
-| /CMS-API | get | Gets Profile Info depending upon the presence of "id" variable. If "id" is not present, it will return logged in user's profile.
-| /CMS-API | post |  Updates Profile Info
-| /CMS-API/signUp | post | Signs-Up an User
-| /CMS-API/search | get | Searches a user with variable 'username'
-| /CMS-API/follow | get | Gets Follower and Followed List of the logged-in User or if "id" is provided and logged-in User follows it, the Follow/Followed List of that user
-| /CMS-API/follow | post | Follow/Unfollow by "id" variable provided 
-| /CMS-API/Feed | get | Gets daily feed unless an "id" is provided,in that case it gets the post with that id
-| /CMS-API/Feed | post | Upload a new Post by "content" variable or edit by providing "id" of an existing post long with new content to update that post
-| /CMS-API/Feed | delete | Deletes the post with given "id" as query param
-| /CMS-API/Feed/like | post | Likes/Unlikes a post with given "id"
-| /CMS-API/Feed/comment | get | Gets Comment if "id" is provided a, Gets comments in post by provided "post_id" 
-| /CMS-API/Feed/comment | post | Posts comment on post by providing "post_id" and "comment" (content of the comment)
-| /CMS-API/feed/comment | delete | Delete a comment on a post providing "post_id" and "id" (Comment id) as query params.
+| /api | get | Gets Profile Info depending upon the presence of "id" variable. If "id" is not present, it will return logged in user's profile.
+| /api | post |  Updates Profile Info
+| /api/signUp | post | Signs-Up an User
+| /api/search | get | Searches a user with variable 'username'
+| /api/follow | get | Gets Follower and Followed List of the logged-in User or if "id" is provided and logged-in User follows it, the Follow/Followed List of that user
+| /api/follow | post | Follow/Unfollow by "id" variable provided 
+| /api/Feed | get | Gets daily feed unless an "id" is provided,in that case it gets the post with that id
+| /api/Feed | post | Upload a new Post by "content" variable or edit by providing "id" of an existing post long with new content to update that post
+| /api/Feed | delete | Deletes the post with given "id" as query param
+| /api/Feed/like | post | Likes/Unlikes a post with given "id"
+| /api/Feed/comment | get | Gets Comment if "id" is provided a, Gets comments in post by provided "post_id" 
+| /api/Feed/comment | post | Posts comment on post by providing "post_id" and "comment" (content of the comment)
+| /api/feed/comment | delete | Delete a comment on a post providing "post_id" and "id" (Comment id) as query params.
